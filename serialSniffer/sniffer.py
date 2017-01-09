@@ -25,10 +25,10 @@ class Sniffer(object):
         """
 
         while True:
-            p_byte = self.virtual_comm.read()
+            p_byte = self.physical_comm.read()
             self.virtual_comm.write(p_byte)
             self.p_bytes.append(p_byte)
-            # TOCO: store the data somewhere
+            # TODO: store the data somewhere
 
     def read_virtual(self):
 

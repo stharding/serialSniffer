@@ -25,11 +25,12 @@ class Sniffer(object):
         """
 
         while True:
+            msg = self.physical_comm.read()
             n = self.physical_comm.inWaiting()
             if n:
-                msg = self.physical_comm.read()
-                self.virtual_comm.write(msg)
-                self.p_bytes.append(msg)
+                msg += self.physical_comm.read(n)
+            self.virtual_comm.write(msg)
+            self.p_bytes.append(msg)
             # TODO: store the data somewhere
 
     def read_virtual(self):
@@ -39,8 +40,9 @@ class Sniffer(object):
         """
 
         while True:
+            msg = self.virtual_comm.read()
             n = self.virtual_comm.inWaiting()
             if n:
-                msg = self.virtual_comm.read()
-                self.physical_comm.write(msg)
-                self.v_bytes.append(msg)
+                msg += self.virtual_comm.read(n)
+            self.physical_comm.write(msg)
+            self.v_bytes.append(msg)

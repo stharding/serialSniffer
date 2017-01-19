@@ -9,8 +9,8 @@ class Sniffer(object):
     """
 
     def __init__(self, virtual_comm='COM7', physical_comm='COM1'):
-        self.virtual_comm = Serial(virtual_comm)
-        self.physical_comm = Serial(physical_comm)
+        self.virtual_comm = Serial(virtual_comm, baudrate=19200)
+        self.physical_comm = Serial(physical_comm, baudrate=19200)
         self.pool = ThreadPoolExecutor(4)
         self.v_bytes = []
         self.p_bytes = []
@@ -29,7 +29,7 @@ class Sniffer(object):
             n = self.physical_comm.inWaiting()
             if n:
                 msg += self.physical_comm.read(n)
-            self.virtual_comm.write(msg)
+            print 'wrote', self.virtual_comm.write(msg), 'bytes to COM7'
             self.p_bytes.append(msg)
             # TODO: store the data somewhere
 
